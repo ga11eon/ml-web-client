@@ -1,14 +1,24 @@
-<!--<div id="grid-container">-->
-<!--  <div id="canvas-holder">-->
-<!--  </div>-->
-<!--  <div id="button-holder">-->
-<!--  </div>-->
-<!--</div>-->
-
-<div id="canvas-holder">
-  <canvas id="canvas"></canvas>
+<div id="grid-container">
+  <div id="header-holder" class="grid-item">
+    <img src="assets/garbage-logo.png" alt="logo" class="item-image"/>
+    <a>We find garbage</a>
+  </div>
+  <div id="button-holder" class="grid-item">
+    <!--Download image -> choose file-->
+    <input style="display: none" type="file" (change)="onFileSelect($event)" #fileSelection>
+    <button (click)="fileSelection.click()" class="button">Download</button>
+    <!--Select backend address-->
+    <form [formGroup]="addressForm">
+      <select id="server-address" formControlName="address">
+        <ng-container *ngFor="let address of addressList">
+          <option [value]="address">{{address}}</option>
+        </ng-container>
+      </select>
+    </form>
+    <!--Display bounding box-->
+    <button (click)="drawBoundingBoxes()">Find</button>
+  </div>
+  <div id="canvas-holder" class="grid-item">
+    <canvas id="canvas"></canvas>
+  </div>
 </div>
-
-<button (click)="drawDefaultImage()">Click Me</button>
-
-<img src="assets/cat.png" alt="cat.png"/>
