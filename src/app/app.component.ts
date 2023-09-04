@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {ServerAddressMock} from "../../ServerAddressMock";
+import {ServerAddressConfig} from "../../ServerAddressConfig";
 import {BoundingBoxColorCollection} from "../../BoundingBoxColorCollection";
 import {PyServerResponseMock} from "../../PyServerResponseMock";
 import {WebClientService} from "./service/web-client.service";
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   })
 
   constructor(private webClient: WebClientService) {
-    this.addressList = ServerAddressMock;
+    this.addressList = ServerAddressConfig;
   }
 
   ngOnInit(): void {
