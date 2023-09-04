@@ -9,14 +9,14 @@
     <button (click)="fileSelection.click()" class="button">Download</button>
     <!--Select backend address-->
     <form [formGroup]="addressForm">
-      <select id="server-address" formControlName="address">
+      <select id="server-address" (change)="onAddressSelect()" formControlName="address">
         <ng-container *ngFor="let address of addressList">
-          <option [value]="address">{{address}}</option>
+          <option [value]="address" [selected]="true">{{address}}</option>
         </ng-container>
       </select>
     </form>
     <!--Display bounding box-->
-    <button (click)="drawBoundingBoxes()">Find</button>
+    <button (click)="drawBoundingBoxes()">Search</button>
   </div>
   <div id="canvas-holder" class="grid-item">
     <canvas id="canvas"></canvas>
