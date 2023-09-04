@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from "../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class WebClientService {
   private httpOptions: {headers: HttpHeaders};
 
   constructor(private http: HttpClient) {
-    this.backendUrl = '/predictions/garbage_cont_classify';
+    this.backendUrl = environment.serverInternalPath;
     this.httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'image/png'})
     }
