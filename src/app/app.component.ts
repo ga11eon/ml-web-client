@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   public onAddressSelect(): void {
-    this.drawDefaultImage();
+    this.loadImageOnCanvasAndResizeCanvasToFitImage(this.imageToProcessUrl);
   }
 
   public onFileSelect(event: any): void {
