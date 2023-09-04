@@ -6,10 +6,10 @@
   <div id="button-holder" class="grid-item">
     <!--Download image -> choose file-->
     <input style="display: none" type="file" (change)="onFileSelect($event)" #fileSelection>
-    <button (click)="fileSelection.click()" class="button">Download</button>
+    <button (click)="fileSelection.click()" class="button">Upload</button>
     <!--Select backend address-->
     <form [formGroup]="addressForm">
-      <select id="server-address" (change)="onAddressSelect()" formControlName="address">
+      <select id="server-address" (change)="onAddressChange()" formControlName="address">
         <ng-container *ngFor="let address of addressList">
           <option [value]="address" [selected]="true">{{address}}</option>
         </ng-container>

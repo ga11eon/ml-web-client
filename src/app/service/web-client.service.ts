@@ -15,11 +15,12 @@ export class WebClientService {
     }
   }
 
-  public sendToBackend(image: any, targetAddress: string) {
+  public sendToBackend(image: any, fileExtension: string, targetAddress: string) {
     let formData: FormData = new FormData();
     formData.append(
       'image',
-      image /*new Blob([image.src], {type: 'image/png'})*/ //- in case Blob format is preferred
+      //replace argument below with 'image' param, in case not Blob format is preferred
+      new Blob([image.src], {type: 'image/' + fileExtension})
     );
     return this.http.post(
       targetAddress + this.backendUrl,

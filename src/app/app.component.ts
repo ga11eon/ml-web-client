@@ -14,6 +14,7 @@ import {Coordinate} from "./entity/Coordinate";
 export class AppComponent implements OnInit {
   private canvasContext: any;
   private canvas: HTMLCanvasElement;
+  private fileExtension: string;
 
   imageToProcessUrl: any;
   imageToProcess:any;
@@ -30,28 +31,39 @@ export class AppComponent implements OnInit {
     this.canvas = <HTMLCanvasElement> document.getElementById('canvas');
     this.canvasContext = this.canvas.getContext('2d');
     this.drawDefaultImage();
-  }
-
-  public onAddressSelect(): void {
-    this.loadImageOnCanvasAndResizeCanvasToFitImage(this.imageToProcessUrl);
+    this.uploadDefaultImage();
   }
 
   public onFileSelect(event: any): void {
+    let theFile = event.target.files[0];
+    //check the file extension
+    if (!this.fileHasProperExtension(theFile)) {
+      alert('Please choose .png or .jpg file to upload');
+      return;
+    }
+    this.saveSelectedFileExtension(theFile);
+    //process selected file
     let reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
+    reader.readAsDataURL(theFile);
     reader.onload = () => {
       this.imageToProcess = new Image();
       this.imageToProcess.src = reader.result;
       this.imageToProcessUrl = reader.result;
       this.imageToProcess.onload = () => {
+        //display selected file
         this.loadImageOnCanvasAndResizeCanvasToFitImage(this.imageToProcessUrl);
       }
     }
   }
 
+  public onAddressChange(): void {
+    this.loadImageOnCanvasAndResizeCanvasToFitImage(this.imageToProcessUrl);
+  }
+
   public async drawBoundingBoxes(): Promise<void> {
     //get coordinates to draw
     let coordinates: Coordinate[] = await this.getBoundingBoxesCoordinates(this.imageToProcess);
+    //drawing
     for (let coordinate of coordinates) {
       //get color
       let theColor = this.getRandomColor();
@@ -91,8 +103,15 @@ export class AppComponent implements OnInit {
     }
     //process the backend server response
     try {
-      const pyResponse = await this.webClient.sendToBackend(image, chosenAddress);
-      return this.extractCoordinatesFromPythonResponse(<string> pyResponse);
+      //get server response
+      const pyResponse = <string> await this.webClient.sendToBackend(image, this.fileExtension, chosenAddress);
+      //check if the server response has at least one coordinate string
+      if (pyResponse.split(',').length - 1 < 6) {
+        alert('Nothing found');
+        return [];
+      }
+      //extract coordinates from pyResponse
+      return this.extractCoordinatesFromPythonResponse(pyResponse);
     } catch (err: any) {
       alert('Unable to reach chosen server :-(');
       return [];
@@ -145,6 +164,11 @@ export class AppComponent implements OnInit {
     this.loadImageOnCanvasAndResizeCanvasToFitImage('assets/sherlock.png');
   }
 
+  private uploadDefaultImage(): void {
+    this.imageToProcess = new Image();
+    this.imageToProcess.src = 'assets/sherlock.png';
+  }
+
   private loadImageOnCanvasAndResizeCanvasToFitImage(imageUrl: any): void {
     let img = new Image();
     img.onload = () => {
@@ -160,5 +184,19 @@ export class AppComponent implements OnInit {
     let max = Math.floor(BoundingBoxColorCollection.length);
     let randNumber = Math.floor(Math.random() * (max - min + 1) + min);
     return BoundingBoxColorCollection[randNumber];
+  }
+
+  private fileHasProperExtension(theFile: File): boolean {
+    //in case selected file has '.' in its name
+    let parts = theFile.name.split('.');
+    //get the file extension
+    let theFileExtension = theFile.name.split('.')[parts.length - 1];
+    return (theFileExtension == 'png' || theFileExtension == 'jpg');
+  }
+
+  private saveSelectedFileExtension(theFile: File): void {
+    //in case selected file has '.' in its name
+    let parts = theFile.name.split('.');
+    this.fileExtension = theFile.name.split('.')[parts.length - 1];
   }
 }
