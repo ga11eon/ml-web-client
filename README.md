@@ -40,3 +40,7 @@ services:
 Environment variables explained:
 1. ML_SERVER_ADDRESSES - list of backend server addresses, address in string separated by ',';
 2. SERVER_INTERNAL_PATH - path that bound to recognition controller method
+
+
+### Application appearance
+![alt text](https://github.com/ga11eon/ml-web-client/blob/master/src/assets/interface.png)
