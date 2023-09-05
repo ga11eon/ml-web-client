@@ -15,7 +15,7 @@ MlWebProject provides following features:
 list for standalone functionality demonstration
 
 ### Demonstration server
-Demo version with mock backend server is available via running application link - http://194.31.173.36:10123
+Demo version with mock backend server is available via running application link - http://194.31.174.36:10123
 
 ### Deployment
 Docker image is available via link - https://hub.docker.com/repository/docker/rloutsker/ml-web-client/general
