@@ -1,27 +1,42 @@
 # MlWebClient
+This project is a web client for university 6th term coursework.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.4.
+The project purpose is to provide web interface for uploading images.
+The images are sent to recognition system backend server for processing.
+User sees drawn bounding boxes of recognized project (dumpsters).
 
-## Development server
+### Functionality
+MlWebProject provides following features:
+1. Wide range of supported image resolutions
+2. Supported image extensions: .png, .jpg
+3. Multicolor signed bounding boxes displaying
+4. Backend server address selection from drop-down list
+5. Hardcoded MOCK address in the server address drop-down 
+list for standalone functionality demonstration
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Demonstration server
+Demo version with mock backend server is available via running application link - http://194.31.173.36:10123
 
-## Code scaffolding
+### Deployment
+Docker image is available via link - https://hub.docker.com/repository/docker/rloutsker/ml-web-client/general
+<br/>
+The dockerfile can be found in project root directory: [dockerfile](dockerfile).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Example of the instruction for `docker compose up` command:
+<pre>
+<code>version: '2'
+services:
+  ml-web-client-service:
+  image: 'rloutsker/ml-web-client:latest'
+  container_name: 'ml-web-client'
+  ports:
+    - "10123:10123"
+  environment:
+    - ML_SERVER_ADDRESSES=http://localhost:10123,https://your.server:0000
+    - SERVER_INTERNAL_PATH=/predictions/garbage_cont_classify 
+</code>
+</pre>
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Environment variables explained:
+1. ML_SERVER_ADDRESSES - list of backend server addresses, address in string separated by ',';
+2. SERVER_INTERNAL_PATH - path that bound to recognition controller method
