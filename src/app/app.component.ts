@@ -161,12 +161,12 @@ export class AppComponent implements OnInit {
   }
 
   private drawDefaultImage(): void {
-    this.loadImageOnCanvasAndResizeCanvasToFitImage('assets/sherlock.png');
+    this.loadImageOnCanvasAndResizeCanvasToFitImage('assets/garbage-logo.png');
   }
 
   private uploadDefaultImage(): void {
     this.imageToProcess = new Image();
-    this.imageToProcess.src = 'assets/sherlock.png';
+    this.imageToProcess.src = 'assets/garbage-logo.png';
   }
 
   private loadImageOnCanvasAndResizeCanvasToFitImage(imageUrl: any): void {
